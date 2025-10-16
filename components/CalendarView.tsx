@@ -60,7 +60,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ publicaciones, onAdd, onUpd
         <select
           value={selectedWeek || ''}
           onChange={(e) => setSelectedWeek(e.target.value ? Number(e.target.value) : null)}
-          className="px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 w-full sm:w-auto"
+          className="px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-[#841f82] focus:border-[#841f82] w-full sm:w-auto"
         >
           <option value="">Todas las semanas</option>
           {semanas.map((semana) => (
@@ -70,7 +70,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ publicaciones, onAdd, onUpd
         
         <button
           onClick={onAdd}
-          className="flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors shadow-md hover:shadow-lg"
+          className="flex items-center justify-center gap-2 bg-[#841f82] text-white px-4 py-2 rounded-lg hover:bg-[#6a1969] transition-colors shadow-md hover:shadow-lg"
         >
           <Plus size={20} />
           Nueva Publicación
@@ -79,7 +79,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ publicaciones, onAdd, onUpd
       
       <div className="overflow-x-auto rounded-lg border">
         <table className="w-full text-sm text-left text-gray-500">
-          <thead className="text-xs text-amber-800 uppercase bg-amber-100">
+          <thead className="text-xs text-[#492b2b] uppercase bg-[#ece1d4]">
             <tr>
               {['Imagen', 'Semana', 'Fecha', 'Día', 'Hora', 'Tema', 'Tipo', 'Descripción', 'Estado', 'Acciones'].map(h => 
                 <th key={h} scope="col" className="px-4 py-3 font-semibold">{h}</th>
@@ -88,7 +88,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ publicaciones, onAdd, onUpd
           </thead>
           <tbody>
             {filteredPubs.map((pub, idx) => (
-              <tr key={pub.id} className={`${idx % 2 === 0 ? 'bg-white' : 'bg-amber-50'} border-b hover:bg-amber-100 transition-colors`}>
+              <tr key={pub.id} className={`${idx % 2 === 0 ? 'bg-white' : 'bg-[#f5efe9]'} border-b hover:bg-[#ece1d4] transition-colors`}>
                 {editingId === pub.id && editForm ? (
                    <>
                     <td className="px-2 py-2">
@@ -103,7 +103,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ publicaciones, onAdd, onUpd
                     <td className="px-2 py-2"><select value={editForm.tipoContenido} onChange={e => handleEditChange('tipoContenido', e.target.value)} className="border rounded px-2 py-1 text-sm bg-white">{TIPOS.map(t => <option key={t} value={t}>{t}</option>)}</select></td>
                     <td className="px-2 py-2"><input type="text" value={editForm.descripcion} onChange={e => handleEditChange('descripcion', e.target.value)} className="w-full border rounded px-2 py-1 text-sm bg-white" /></td>
                     <td className="px-2 py-2"><select value={editForm.estado} onChange={e => handleEditChange('estado', e.target.value as Publicacion['estado'])} className="border rounded px-2 py-1 text-sm bg-white">{ESTADOS.map(s => <option key={s} value={s}>{s}</option>)}</select></td>
-                    <td className="px-4 py-3"><div className="flex gap-3"><button onClick={saveEdit} className="text-green-600 hover:text-green-800"><Save size={18} /></button><button onClick={cancelEdit} className="text-gray-600 hover:text-gray-800"><X size={18} /></button></div></td>
+                    <td className="px-4 py-3"><div className="flex gap-3"><button onClick={saveEdit} className="text-[#841f82] hover:text-[#6a1969]"><Save size={18} /></button><button onClick={cancelEdit} className="text-gray-600 hover:text-gray-800"><X size={18} /></button></div></td>
                    </>
                 ) : (
                   <>
@@ -121,10 +121,10 @@ const CalendarView: React.FC<CalendarViewProps> = ({ publicaciones, onAdd, onUpd
                     <td className="px-4 py-3">{pub.dia}</td>
                     <td className="px-4 py-3">{pub.hora}</td>
                     <td className="px-4 py-3 max-w-xs truncate">{pub.temaCentral}</td>
-                    <td className="px-4 py-3"><span className="px-2 py-1 bg-amber-200 text-amber-800 rounded-full text-xs font-semibold">{pub.tipoContenido}</span></td>
+                    <td className="px-4 py-3"><span className="px-2 py-1 bg-[#ece1d4] text-[#492b2b] rounded-full text-xs font-semibold">{pub.tipoContenido}</span></td>
                     <td className="px-4 py-3 max-w-xs truncate">{pub.descripcion}</td>
-                    <td className="px-4 py-3"><span className={`px-2 py-1 rounded-full text-xs font-semibold ${pub.estado === 'Programado' ? 'bg-blue-100 text-blue-800' : pub.estado === 'Publicado' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>{pub.estado}</span></td>
-                    <td className="px-4 py-3"><div className="flex gap-3"><button onClick={() => startEdit(pub)} className="text-blue-600 hover:text-blue-800"><Edit2 size={16} /></button><button onClick={() => onDelete(pub.id)} className="text-red-600 hover:text-red-800"><Trash2 size={16} /></button></div></td>
+                    <td className="px-4 py-3"><span className={`px-2 py-1 rounded-full text-xs font-semibold ${pub.estado === 'Programado' ? 'bg-[#e6cde5] text-[#841f82]' : pub.estado === 'Publicado' ? 'bg-[#d4c8c8] text-[#492b2b]' : 'bg-gray-100 text-gray-800'}`}>{pub.estado}</span></td>
+                    <td className="px-4 py-3"><div className="flex gap-3"><button onClick={() => startEdit(pub)} className="text-[#841f82] hover:text-[#6a1969]"><Edit2 size={16} /></button><button onClick={() => onDelete(pub.id)} className="text-red-600 hover:text-red-800"><Trash2 size={16} /></button></div></td>
                   </>
                 )}
               </tr>
