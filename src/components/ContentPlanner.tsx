@@ -6,18 +6,19 @@ import MetricsView from './MetricsView';
 import DistributionView from './DistributionView';
 import TrackingView from './TrackingView';
 import AdminPanel from './AdminPanel';
-import Login from './Login';
 
-const ContentPlanner: React.FC = () => {
+interface ContentPlannerProps {
+  usuario: Usuario;
+  onLogout: () => void;
+}
+
+const ContentPlanner: React.FC<ContentPlannerProps> = ({ usuario, onLogout }) => {
   const [publicaciones, setPublicaciones] = useState<Publicacion[]>([]);
   const [activeTab, setActiveTab] = useState<ActiveTab>('calendar');
-  const [usuarioActual, setUsuarioActual] = useState<Usuario | null>(null);
 
   useEffect(() => {
-    if (usuarioActual) {
-      cargarPublicaciones();
-    }
-  }, [usuarioActual]);
+    cargarPublicaciones();
+  }, []);
 
   const cargarPublicaciones = () => {
     const publicacionesGuardadas = storageService.obtenerPublicaciones();
@@ -28,18 +29,6 @@ const ContentPlanner: React.FC = () => {
     setPublicaciones(nuevasPublicaciones);
     storageService.guardarPublicaciones(nuevasPublicaciones);
   };
-
-  const handleLogin = (usuario: Usuario) => {
-    setUsuarioActual(usuario);
-  };
-
-  const handleLogout = () => {
-    setUsuarioActual(null);
-  };
-
-  if (!usuarioActual) {
-    return <Login onLogin={handleLogin} />;
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -52,11 +41,11 @@ const ContentPlanner: React.FC = () => {
                 ACAFE Content Planner
               </h1>
               <p className="text-sm text-gray-600">
-                Bienvenido, {usuarioActual.nombre} ({usuarioActual.rol})
+                Bienvenido, {usuario.nombre} ({usuario.rol})
               </p>
             </div>
             <button
-              onClick={handleLogout}
+              onClick={onLogout}
               className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
             >
               Cerrar Sesión
@@ -82,7 +71,7 @@ const ContentPlanner: React.FC = () => {
               </button>
             ))}
             
-            {usuarioActual.rol === 'admin' && (
+            {usuario.rol === 'admin' && (
               <button
                 onClick={() => setActiveTab('admin')}
                 className={`py-2 px-3 rounded-t-lg ${
@@ -119,8 +108,8 @@ const ContentPlanner: React.FC = () => {
           <TrackingView publicaciones={publicaciones} />
         )}
         
-        {activeTab === 'admin' && usuarioActual.rol === 'admin' && (
-          <AdminPanel usuarioActual={usuarioActual} />
+        {activeTab === 'admin' && usuario.rol === 'admin' && (
+          <AdminPanel usuarioActual={usuario} />
         )}
       </main>
     </div>
